@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TamilTV</string>
+    <string name="short_app_name">Tamil TV (Local Cable TV)</string>
+
+    <string name="channelName">Tamil Radio</string>
+    <string name="channelDescription">Tamil Radio</string>
+
+    <dimen name="banner_height">50dp</dimen>
+</resources>

@@ -1,0 +1,34 @@
+CREATE TABLE Channels (
+  id INTEGER PRIMARY KEY NOT NULL,
+  channelId INTEGER,
+  channelName TEXT NOT NULL,
+  channelLogo TEXT NOT NULL,
+  channelCategory TEXT NOT NULL,
+  channelStream TEXT NOT NULL,
+  isActive INTEGER
+);
+
+
+addChannel:
+INSERT INTO Channels(channelId,channelName,channelLogo,channelCategory,channelStream,isActive)
+VALUES(?,?,?,?,?,?);
+
+deleteAllChannel:
+DELETE FROM Channels;
+
+getChannel:
+SELECT * FROM Channels
+WHERE id = ? AND isActive = 1;
+
+getCategoryChannels:
+SELECT * FROM Channels
+WHERE channelCategory = ? AND isActive=1 ORDER BY channelName;
+
+getAllChannels:
+SELECT * FROM Channels
+WHERE isActive = 1 ORDER BY channelName;
+
+getAllCategories:
+SELECT DISTINCT(channelCategory) FROM Channels
+WHERE isActive = 1 ORDER BY channelCategory ASC;
+

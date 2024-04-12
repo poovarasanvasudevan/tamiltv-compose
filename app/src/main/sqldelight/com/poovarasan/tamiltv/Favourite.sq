@@ -1,0 +1,22 @@
+CREATE TABLE Favourite (
+    id INTEGER PRIMARY KEY NOT NULL,
+    channelId INTEGER
+);
+
+addFavourite:
+INSERT INTO Favourite(channelId)
+VALUES (?);
+
+removeFavourite:
+DELETE FROM Favourite
+WHERE channelId=?;
+
+isFavourite:
+SELECT COUNT(1) AS isFavourite FROM Favourite
+WHERE channelId =?;
+
+getAllFavourites:
+SELECT * FROM Channels c
+WHERE c.channelId IN (
+    SELECT f.channelId FROM Favourite f
+);
