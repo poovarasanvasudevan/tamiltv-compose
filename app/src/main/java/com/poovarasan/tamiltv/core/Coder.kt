@@ -12,6 +12,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.koushikdutta.ion.Ion
 import com.poovarasan.tamiltv.Ads
+import com.poovarasan.tamiltv.ConfigHelper
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -19,7 +20,8 @@ import kotlin.coroutines.suspendCoroutine
 suspend fun Context.getCoder() = suspendCoroutine<JsonArray> {
 
     Ion.with(this)
-        .load(Ads.url)
+        .load(ConfigHelper.apiUrl())
+        .addHeader("User-Agent",ConfigHelper.getUserAgent())
         .asJsonArray()
         .setCallback { e, result ->
             if (e == null) it.resume(result)
@@ -29,7 +31,8 @@ suspend fun Context.getCoder() = suspendCoroutine<JsonArray> {
 
 suspend fun Context.checkAPI(code: String) = suspendCoroutine<JsonArray> {
     Ion.with(this)
-        .load("${Ads.murl}/${code}.json")
+        .load("${ConfigHelper.getMUrl()}/${code}.json")
+        .addHeader("User-Agent",ConfigHelper.getUserAgent())
         .asJsonArray()
         .setCallback { e, result ->
             if (e == null) it.resume(result)
@@ -39,7 +42,8 @@ suspend fun Context.checkAPI(code: String) = suspendCoroutine<JsonArray> {
 
 suspend fun Context.getConfig() = suspendCoroutine<JsonObject> {
     Ion.with(this)
-        .load(Ads.aaUrl)
+        .load(ConfigHelper.getSettings())
+        .addHeader("User-Agent",ConfigHelper.getUserAgent())
         .noCache()
         .asJsonObject()
         .setCallback { e, result ->
@@ -50,7 +54,8 @@ suspend fun Context.getConfig() = suspendCoroutine<JsonObject> {
 
 suspend fun Context.getRadio() = suspendCoroutine<JsonObject> {
     Ion.with(this)
-        .load(Ads.RUrl)
+        .load(ConfigHelper.getRUrl())
+        .addHeader("User-Agent",ConfigHelper.getUserAgent())
         .asJsonObject()
         .setCallback { e, result ->
             if (e == null) it.resume(result)

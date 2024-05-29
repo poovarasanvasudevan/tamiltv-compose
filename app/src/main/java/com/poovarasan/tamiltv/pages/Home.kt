@@ -58,6 +58,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pixplicity.easyprefs.library.Prefs
@@ -86,7 +87,7 @@ import com.startapp.sdk.adsbase.StartAppAd
 import kotlinx.coroutines.launch
 
 
-@SuppressLint("FlowOperatorInvokedInComposition", "UnusedMaterialScaffoldPaddingParameter")
+@androidx.annotation.OptIn(UnstableApi::class) @SuppressLint("FlowOperatorInvokedInComposition", "UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Home(
@@ -120,7 +121,6 @@ fun Home(
         .collectAsState(initial = emptyList())
 
     var value by remember { mutableStateOf("") }
-
 
     var filteredChannels by remember { mutableStateOf(emptyList<Channels>()) }
 

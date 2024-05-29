@@ -20,12 +20,17 @@ android {
         applicationId "com.poovarasan.tamiltv"
         minSdk 21
         targetSdk 34
-        versionCode 39
-        versionName "3.9"
+        versionCode 40
+        versionName "4.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
+        }
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
         }
     }
 
@@ -51,6 +56,12 @@ android {
         kotlinCompilerExtensionVersion '1.4.6'
     }
     namespace 'com.poovarasan.tamiltv'
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
 
 //    configurations.all {
 //        resolutionStrategy {

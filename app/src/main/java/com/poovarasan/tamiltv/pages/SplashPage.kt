@@ -2,7 +2,6 @@ package com.poovarasan.tamiltv.pages
 
 //import com.poovarasan.tamiltv.core.isOnline
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,9 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.gson.JsonObject
 import com.pixplicity.easyprefs.library.Prefs
-import com.poovarasan.tamiltv.Ads
 import com.poovarasan.tamiltv.R
-import com.poovarasan.tamiltv.core.*
+import com.poovarasan.tamiltv.core.Route
+import com.poovarasan.tamiltv.core.TamilTV
+import com.poovarasan.tamiltv.core.getCoder
+import com.poovarasan.tamiltv.core.getConfig
+import com.poovarasan.tamiltv.core.isOnline
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -42,17 +44,9 @@ fun SplashPage(navController: NavController) {
 
     LaunchedEffect(Unit) {
 
-//        Ads.url?.let { Log.i("URL" , it) }
-//        Ads.murl?.let { Log.i("MURL" , it) }
-//        Ads.RUrl?.let { Log.i("RURL" , it) }
-//        AESEncyption.encrypt("https://tavapi.inditechman.com/api/tamilradio.json")
-//            ?.let { it1 -> Log.i("RURL" , it1) }
-
         if (isOnline) {
             scope.launch(Dispatchers.IO) {
                 val allChannels = context.getCoder()
-
-                Log.i("ADDURL", Ads.url?:"")
 
                 val datas = mutableListOf<JsonObject>()
                 val allCategory = allChannels.map { it.asJsonObject }
