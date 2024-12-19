@@ -52,28 +52,18 @@ fun SplashPage(navController: NavController) {
                 val allCategory = allChannels.map { it.asJsonObject }
                 allCategory.forEach {
                     val channels = it.get("channels").asJsonArray
-                    channels.forEach {
-                        datas.add(it.asJsonObject)
-                    }
+                    channels.forEach { datas.add(it.asJsonObject) }
                 }
 
                 channelQuery.deleteAllChannel()
                 datas.forEachIndexed { index, ichannel ->
                     channelQuery.addChannel(
-                        channelId = if (!ichannel.asJsonObject.has("channelid")) index.toLong() else ichannel.asJsonObject.get(
-                            "channelid"
-                        ).asLong,
+                        channelId = if (!ichannel.asJsonObject.has("channelid")) index.toLong() else ichannel.asJsonObject.get("channelid").asLong,
                         channelName = ichannel.asJsonObject.get("name").asString,
-                        channelCategory = if (ichannel.asJsonObject.get("category").isJsonNull) "Other" else ichannel.asJsonObject.get(
-                            "category"
-                        ).asString,
-                        channelLogo = if (ichannel.asJsonObject.get("logo").isJsonNull) "" else ichannel.asJsonObject.get(
-                            "logo"
-                        ).asString,
+                        channelCategory = if (ichannel.asJsonObject.get("category").isJsonNull) "Other" else ichannel.asJsonObject.get("category").asString,
+                        channelLogo = if (ichannel.asJsonObject.get("logo").isJsonNull) "" else ichannel.asJsonObject.get("logo").asString,
                         channelStream = ichannel.asJsonObject.get("url").asString,
-                        isActive = if (!ichannel.asJsonObject.has("active")) 1 else ichannel.asJsonObject.get(
-                            "active"
-                        ).asLong
+                        isActive = if (!ichannel.asJsonObject.has("active")) 1 else ichannel.asJsonObject.get("active").asLong
                     )
                 }
 

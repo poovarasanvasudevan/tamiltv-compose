@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.navigation.NavController
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.poovarasan.tamiltv.R
 import com.poovarasan.tamiltv.core.AppChannel
@@ -32,8 +34,7 @@ import com.poovarasan.tamiltv.core.showIntAd
 import com.poovarasan.tamiltv.widget.AppBanner
 import com.poovarasan.tamiltv.widget.BackHandler
 import com.poovarasan.tamiltv.widget.ChannelItem
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToList
+import kotlinx.coroutines.Dispatchers
 
 @SuppressLint("FlowOperatorInvokedInComposition", "UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -61,7 +62,7 @@ fun CategoryChannel(navController: NavController) {
     if (categoryString != null) {
 
         val channels by channelQuery.getCategoryChannels(categoryString).asFlow()
-            .mapToList()
+            .mapToList(Dispatchers.IO)
             .collectAsState(initial = emptyList())
 
 

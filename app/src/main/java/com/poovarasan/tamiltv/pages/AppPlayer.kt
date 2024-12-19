@@ -75,6 +75,8 @@ import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.exoplayer.upstream.DefaultAllocator
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.navigation.NavController
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToOne
 import com.franmontiel.persistentcookiejar.ClearableCookieJar
 import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
@@ -84,13 +86,12 @@ import com.poovarasan.tamiltv.R
 import com.poovarasan.tamiltv.core.AppChannel
 import com.poovarasan.tamiltv.core.TamilTV
 import com.poovarasan.tamiltv.core.VideoPlayerConfig
+import com.poovarasan.tamiltv.widget.AppBannerMRec
 import com.poovarasan.tamiltv.widget.BackHandler
 import com.poovarasan.tamiltv.widget.CustomPlayer
 import com.poovarasan.tamiltv.widget.OnLifecycleEvent
-import com.poovarasan.tamiltv.widget.StartAppMrecWrapper
 import com.poovarasan.tamiltv.widget.UrlImage
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToOne
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import java.net.CookieHandler
 import java.net.CookieManager
@@ -109,7 +110,7 @@ fun AppPlayer(navController: NavController) {
 
     val isFavourite = favQuery.isFavourite(channel?.channelId)
         .asFlow()
-        .mapToOne()
+        .mapToOne(Dispatchers.IO)
         .collectAsState(initial = 0L)
 
     val resizeModeFlow = AspectRatioFrameLayout.RESIZE_MODE_FIT.toString()
@@ -283,17 +284,10 @@ fun AppPlayer(navController: NavController) {
         systemUI.setStatusBarColor(Color.Black, !isSystemInDarkTheme())
         systemUI.setNavigationBarColor(colorResource(R.color.appbarcolor), !isSystemInDarkTheme())
 
-        val mm = Modifier
-            .fillMaxWidth()
-            .focusable(true)
-            .onKeyEvent {
-                true
-            }
+        val mm = Modifier.fillMaxWidth().focusable(true)
+            .onKeyEvent { true }
             .background(color = Color.Black)
-            .height(
-                if (!fullScreen.value) 245.dp
-                else maxHeight
-            )
+            .height(if (!fullScreen.value) 245.dp else maxHeight)
 
         AnimatedVisibility(visible = channel !=null) {
             Column {
@@ -313,11 +307,7 @@ fun AppPlayer(navController: NavController) {
 
 
                     androidx.compose.animation.AnimatedVisibility(visible = isError.value) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(12.dp), contentAlignment = Alignment.Center
-                        ) {
+                        Box(modifier = Modifier.fillMaxSize().padding(12.dp), contentAlignment = Alignment.Center) {
                             Text(
                                 "Oops there is error in Playing stream. Please try later",
                                 style = MaterialTheme.typography.body1.copy(
@@ -388,25 +378,13 @@ fun AppPlayer(navController: NavController) {
                         }
                     }
 
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .background(colorResource(R.color.bgcolor))
-                    ) {
+                    Box(modifier = Modifier.weight(1f).background(colorResource(R.color.bgcolor))) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(16.dp)
+                            modifier = Modifier.fillMaxSize().padding(16.dp)
                         ) {
-
-                            AndroidView(
-                                factory = {
-                                    StartAppMrecWrapper(it)
-                                },
-                                //modifier = Modifier.fillMaxWidth()
-                            )
+                           AppBannerMRec( modifier= Modifier )
                         }
                     }
                 }

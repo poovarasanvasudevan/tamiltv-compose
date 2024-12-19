@@ -9,52 +9,23 @@ import com.applovin.mediation.MaxAd
 import com.applovin.mediation.MaxAdListener
 import com.applovin.mediation.MaxError
 import com.applovin.mediation.ads.MaxInterstitialAd
+import com.applovin.sdk.AppLovinMediationProvider
 import com.applovin.sdk.AppLovinSdk
 import com.applovin.sdk.AppLovinSdkConfiguration
+import com.applovin.sdk.AppLovinSdkInitializationConfiguration
 import com.pixplicity.easyprefs.library.Prefs
 import com.startapp.sdk.adsbase.Ad
 import com.startapp.sdk.adsbase.StartAppAd
 import com.startapp.sdk.adsbase.adlisteners.AdEventListener
 
 
-//import android.app.Activity
-//import com.startapp.sdk.adsbase.adlisteners.VideoListener
-//import com.tapdaq.sdk.Tapdaq
-//import com.tapdaq.sdk.TapdaqConfig
-//import com.tapdaq.sdk.common.TMAdError
-//import com.tapdaq.sdk.listeners.TMAdListener
-//import com.tapdaq.sdk.listeners.TMInitListenerBase
-//
-//class AppTapdaqInitListener(val onInit: () -> Unit, val onFailed: () -> Unit) :
-//    TMInitListenerBase() {
-//    override fun didInitialise() {
-//        onInit()
-//    }
-//
-//    override fun didFailToInitialise(p0: TMAdError?) {
-//        onFailed
-//    }
-//}
-//
-//
-//fun Activity.initAds() {
-//    val config = Tapdaq.getInstance().config()
-//    Tapdaq.getInstance().initialize(
-//        this,
-//        "<APP_ID>", "<CLIENT_KEY>",
-//        config,
-//        AppTapdaqInitListener(
-//            onInit = {},
-//            onFailed = {}
-//        )
-//    )
-//}
-//
-
 
 fun Activity.initAd(onSuccess: () -> Unit) {
-    AppLovinSdk.getInstance(this).mediationProvider = "max"
-    AppLovinSdk.getInstance(this).initializeSdk { configuration: AppLovinSdkConfiguration ->
+    val initConfig = AppLovinSdkInitializationConfiguration
+        .builder("VtcAm_8lgPQSl52iwTS6iWxXiOR8VkQ6Dbz4LlTpTb6P6Se1ZEIGqkzKRkW_W6X64G8nQxAtCdpJUr3uy4Syew", this)
+        .setMediationProvider(AppLovinMediationProvider.MAX)
+        .build()
+    AppLovinSdk.getInstance(this).initialize(initConfig) { _config: AppLovinSdkConfiguration ->
         onSuccess()
     }
 }

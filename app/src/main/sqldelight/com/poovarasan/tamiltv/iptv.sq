@@ -1,0 +1,32 @@
+CREATE TABLE IPTV(
+    id INTEGER PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL
+);
+
+CREATE TABLE IPTV_Channels(
+    id INTEGER PRIMARY KEY NOT NULL,
+    iptvId INTEGER,
+    logo TEXT NOT NULL,
+    name TEXT NOT NULL,
+    stream TEXT NOT NULL
+);
+
+
+insertIPTV:
+INSERT INTO IPTV(name) VALUES(?);
+
+insertChannel:
+INSERT INTO IPTV_Channels(iptvId,logo,name,stream) VALUES(?,?,?,?);
+
+getAllIPTV:
+SELECT iptv1.name, COUNT(iptv2.id) AS channelCount FROM IPTV iptv1
+JOIN IPTV_Channels iptv2 ON iptv1.id = iptv2.iptvId;
+
+getAllChannels:
+SELECT * FROM IPTV_Channels WHERE iptvId = ?;
+
+deleteIPTV:
+DELETE FROM IPTV WHERE id = ?;
+
+deleteAllChannels:
+DELETE FROM IPTV_Channels WHERE iptvId = ?;

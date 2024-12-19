@@ -38,22 +38,19 @@ public class StartAppMrecWrapper extends FrameLayout {
         init();
     }
 
-    public void init() {
-        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        layoutInflater.inflate(R.layout.start_app_mrec, this);
-
-        banner = findViewById(R.id.mrec);
+    public void loadAd(Context context, AppAdListener appAdListener) {
         banner.loadAd();
 
         banner.setBannerListener(new BannerListener() {
             @Override
             public void onReceiveAd(View view) {
                 banner.showBanner();
-            }
+                appAdListener.onAdLoaded();            }
 
             @Override
             public void onFailedToReceiveAd(View view) {
                 banner.hideBanner();
+                appAdListener.onAdFailedToLoad();
             }
 
             @Override
@@ -66,5 +63,11 @@ public class StartAppMrecWrapper extends FrameLayout {
 
             }
         });
+    }
+
+    public void init() {
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        layoutInflater.inflate(R.layout.start_app_mrec, this);
+        banner = findViewById(R.id.mrec);
     }
 }

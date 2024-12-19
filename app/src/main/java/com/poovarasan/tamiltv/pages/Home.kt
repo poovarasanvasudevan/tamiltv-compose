@@ -60,6 +60,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pixplicity.easyprefs.library.Prefs
 import com.poovarasan.tamiltv.BuildConfig
@@ -81,9 +83,8 @@ import com.poovarasan.tamiltv.widget.AppBanner
 import com.poovarasan.tamiltv.widget.BackHandler
 import com.poovarasan.tamiltv.widget.ChannelItem
 import com.poovarasan.tamiltv.widget.DrawerRow
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToList
 import com.startapp.sdk.adsbase.StartAppAd
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -112,12 +113,12 @@ fun Home(
 
     val liveChannels by channelQuery.getAllChannels()
         .asFlow()
-        .mapToList()
+        .mapToList(Dispatchers.IO)
         .collectAsState(
             initial = emptyList()
         )
 
-    val categories by channelQuery.getAllCategories().asFlow().mapToList()
+    val categories by channelQuery.getAllCategories().asFlow().mapToList(Dispatchers.IO)
         .collectAsState(initial = emptyList())
 
     var value by remember { mutableStateOf("") }
@@ -198,7 +199,6 @@ fun Home(
 
             )
         },
-
         drawerContent = {
             Column(
                 modifier = Modifier

@@ -36,9 +36,6 @@
             android:name="com.startapp.sdk.APPLICATION_ID"
             android:value="204498389" />
 
-
-        <meta-data android:name="applovin.sdk.key"
-            android:value="VtcAm_8lgPQSl52iwTS6iWxXiOR8VkQ6Dbz4LlTpTb6P6Se1ZEIGqkzKRkW_W6X64G8nQxAtCdpJUr3uy4Syew"/>
     </application>
 
 </manifest>
