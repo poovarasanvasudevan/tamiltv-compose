@@ -97,11 +97,12 @@ public class TMBannerWrapper extends FrameLayout {
         int widthPx = ViewGroup.LayoutParams.MATCH_PARENT;
         int heightPx = getResources().getDimensionPixelSize( R.dimen.banner_height );
         adView.setLayoutParams( new FrameLayout.LayoutParams( widthPx, heightPx ) );
-        adView.setBackgroundColor(ContextCompat.getColor(activity,android.R.color.transparent));
+        adView.setBackgroundColor( ContextCompat.getColor(activity,android.R.color.transparent) );
         bannerLayout.addView(adView);
         adView.loadAd();
     }
 
     public void destroyBanner() {
+
     }
 }
