@@ -85,7 +85,6 @@ public class TMBannerWrapper extends FrameLayout {
 
             @Override
             public void onAdLoadFailed(String adUnitId, MaxError error) {
-                Log.i("ADERROR",error.getMessage());
                 appAdListener.onAdFailedToLoad();
             }
 
@@ -95,9 +94,9 @@ public class TMBannerWrapper extends FrameLayout {
             }
         });
 
-        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int widthPx = ViewGroup.LayoutParams.MATCH_PARENT;
         int heightPx = getResources().getDimensionPixelSize( R.dimen.banner_height );
-        adView.setLayoutParams( new FrameLayout.LayoutParams( width, heightPx ) );
+        adView.setLayoutParams( new FrameLayout.LayoutParams( widthPx, heightPx ) );
         adView.setBackgroundColor(ContextCompat.getColor(activity,android.R.color.transparent));
         bannerLayout.addView(adView);
         adView.loadAd();
